@@ -1,0 +1,54 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+  <title>Nacl photo</title>  
+  <style>  
+    body {  
+      font-family: Arial, sans-serif;  
+      background-color: #f5f5f5;  
+    }  
+      
+    h1 {  
+      text-align: center;  
+      color: #333;  
+      font-size: 120px;  
+    }  
+      
+    .clickable-location {  
+      cursor: pointer;  
+      color: #007bff;  
+      text-decoration: none;  
+      font-size: 60px;  
+      margin: 10px;  
+      padding: 10px;  
+      border: 1px solid #007bff;  
+      border-radius: 5px;  
+      display: inline-block;  
+      transition: background-color 0.3s ease;  
+    }  
+      
+    .clickable-location:hover {  
+      background-color: #007bff;  
+      color: white;  
+    }  
+  </style>  
+</head>    
+<body>   
+  <h1>Tourist-Nacl</h1>  
+    
+  <div class="locations">  
+    <p class="clickable-location" onclick="redirectToLocation('tokyo')">东京</p>  
+    <p class="clickable-location" onclick="redirectToLocation('chengdu')">成都</p>  
+    <p class="clickable-location" onclick="redirectToLocation('chongqing')">重庆</p>  
+    <p class="clickable-location" onclick="redirectToLocation('sanya')">三亚</p>  
+  </div>  
+    
+  <script>  
+    function redirectToLocation(location) {  
+      var currentDomain = window.location.protocol + "//" + window.location.host;  
+      var targetUrl = currentDomain + "/photo/display?location=" + location;  
+      window.location.href = targetUrl;  
+    }  
+  </script>  
+</body>  
+</html>

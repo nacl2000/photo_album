@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>点击图片查看原图</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+  <div id="imageContainer"></div>
+  <script>
+    $(document).ready(function() {
+      const url = new URL(window.location.href);
+      const params = new URLSearchParams(url.search);
+      const location = params.get('location') || ''
+      $.ajax({
+        url: "/photo/get_compress_photo_url?location=" + location,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+          var imageContainer = $('#imageContainer');
+          var imageUrls = JSON.parse(response.imageUrls)
+          for (var i = 0; i < imageUrls.length; i++) {
+            var img = new Image();
+            img.src = imageUrls[i].url;  
+            img.width = 1300;
+            img.height = 1000;
+            img.onclick = function() {
+              window.open(event.target.src.replace("/compress", ""), "_blank");
+            }
+            imageContainer.append(img);
+          }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          console.log('Error: ' + textStatus + ' - ' + errorThrown);
+        }
+      });
+    });
+  </script>  
+</body>
+</html>
