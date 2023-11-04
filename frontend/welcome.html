@@ -30,6 +30,17 @@
     .clickable-location:hover {  
       background-color: #007bff;  
       color: white;  
+    }
+  
+    .profile-button {  
+      position: absolute;  
+      top: 20px; /* 调整按钮距离顶部的位置 */  
+      right: 20px; /* 调整按钮距离右侧的位置 */  
+      background-color: #4CAF50; /* 按钮背景颜色 */  
+      color: white; /* 按钮文本颜色 */  
+      border: none; /* 去除按钮边框 */  
+      padding: 10px 20px; /* 按钮内边距 */  
+      cursor: pointer; /* 鼠标悬停时呈现手型图标 */  
     }  
   </style>  
 </head>    
@@ -42,12 +53,18 @@
     <p class="clickable-location" onclick="redirectToLocation('chongqing')">重庆</p>  
     <p class="clickable-location" onclick="redirectToLocation('sanya')">三亚</p>  
   </div>  
+  <button class="profile-button" onclick="goToProfile()">进入个人主页</button>
     
   <script>  
+    function getCurrentDomain() {
+      return window.location.protocol + "//" + window.location.host;
+    }
     function redirectToLocation(location) {  
-      var currentDomain = window.location.protocol + "//" + window.location.host;  
-      var targetUrl = currentDomain + "/photo/display?location=" + location;  
+      var targetUrl = getCurrentDomain() + "/photo/display?location=" + location;  
       window.location.href = targetUrl;  
+    }  
+    function goToProfile() {  
+      window.location.href = getCurrentDomain() + "/homepage"; // 替换为你的个人主页URL  
     }  
   </script>  
 </body>  
