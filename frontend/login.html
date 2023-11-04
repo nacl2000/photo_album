@@ -88,10 +88,14 @@
                         xhr.open('POST', 'api', true);
                         xhr.setRequestHeader('content-type', 'application/json');
                         xhr.onreadystatechange = function() {
-                            if(result.code >= 300){
-                                alert(xhr.responseText);
-                            } else {
-                                console.log(xhr.responseText);
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                if(xhr.status >= 300){
+                                    alert(xhr.responseText);
+                                } else {
+                                    var currentDomain = window.location.protocol + "//" + window.location.host;  
+                                    var targetUrl = currentDomain + "/homepage";  
+                                    window.location.href = targetUrl;  
+                                }
                             }
                         }
                         xhr.send(JSON.stringify({"username": username.value, "password": md5(password.value)}));

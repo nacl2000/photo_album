@@ -1,13 +1,13 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
-    name = "photo",
-    srcs = ["photo.go"],
-    importpath = "github.com/nacl2000/photo_album/routers/photo",
+    name = "homepage",
+    srcs = ["homepage.go"],
+    importpath = "github.com/nacl2000/photo_album/routers/homepage",
     visibility = ["//visibility:public"],
     deps = [
-        "//models/image_model",
         "//pkg/network",
+        "@com_github_gin_gonic_contrib//sessions",
         "@com_github_gin_gonic_gin//:gin",
     ],
 )

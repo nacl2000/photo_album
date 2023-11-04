@@ -1,6 +1,7 @@
 package login
 
 import (
+	"fmt"
 	"net/http"
 	"github.com/nacl2000/photo_album/models/user_model"
 	"github.com/gin-gonic/gin"
@@ -21,7 +22,7 @@ func login(c *gin.Context) {
 	session := sessions.Default(c)
 	session.Set("username", requester.Username)
 	session.Save()
-	c.JSON(200, gin.H{"username": session.Get("username")})
+	c.String(200, fmt.Sprintf("Hello %s", session.Get("username")))
 }
 
 func AddLoginRoutes(router *gin.RouterGroup) {

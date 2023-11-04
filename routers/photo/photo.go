@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"github.com/gin-gonic/gin"
 	"github.com/nacl2000/photo_album/models/image_model"
+	"github.com/nacl2000/photo_album/pkg/network"
 )
 
 var originPhtotRootPath = filepath.Join("/home/nacl", "photo_data/")
@@ -55,7 +56,7 @@ func getCompressPhotoUrlHandler(c *gin.Context) {
 			return err
 		}
 		if !info.IsDir() {
-			imageUrls = append(imageUrls, image_model.Image{Url: fmt.Sprintf("http://%s/photo/display?is_compress=1&photo_name=%s&location=%s", c.Request.Host, filepath.Base(path), location)})
+			imageUrls = append(imageUrls, image_model.Image{Url: fmt.Sprintf("%s/photo/display?is_compress=1&photo_name=%s&location=%s", network.GetRequestDomain(c), filepath.Base(path), location)})
 			return nil
 		}
 		return nil

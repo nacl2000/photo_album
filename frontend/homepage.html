@@ -1,0 +1,84 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+  <title>个人主页</title>  
+  <style>  
+    body {  
+      font-family: Arial, sans-serif;  
+      background-color: #f2f2f2;  
+    }  
+      
+    h1 {  
+      text-align: center;  
+      color: #333;  
+    }  
+      
+    #upload-container {  
+      margin-top: 50px;  
+      text-align: center;  
+    }  
+      
+    #upload-container label {  
+      display: block;  
+      margin-bottom: 10px;  
+      font-weight: bold;  
+    }  
+      
+    #upload-container input[type="file"] {  
+      display: block;  
+      margin: 0 auto;  
+      padding: 10px;  
+      background-color: #fff;  
+      border: 1px solid #ccc;  
+      border-radius: 5px;  
+      width: 200px;  
+      margin-bottom: 20px;  
+    }  
+      
+    #upload-container button {  
+      display: inline-block;  
+      padding: 10px 20px;  
+      background-color: #4CAF50;  
+      color: #fff;  
+      border: none;  
+      border-radius: 5px;  
+      cursor: pointer;  
+    }  
+      
+    #upload-container button:hover {  
+      background-color: #45a049;  
+    }  
+  </style>  
+</head>  
+<body>  
+  <h1>个人主页</h1>  
+    
+  <div id="upload-container">  
+    <label for="image-file">上传图片:</label>  
+    <input type="file" id="image-file" name="image-file" accept="image/*">  
+    <button id="upload-button">上传</button>  
+  </div>  
+  
+  <script>  
+    document.getElementById('upload-button').addEventListener('click', function() {  
+      var fileInput = document.getElementById('image-file');  
+      var file = fileInput.files[0];  
+        
+      var formData = new FormData();  
+      formData.append('image', file);  
+  
+      var xhr = new XMLHttpRequest();  
+      xhr.open('POST', '/upload', true); // 后端接收上传图片的API endpoint  
+      xhr.send(formData);  
+  
+      xhr.onload = function() {  
+        if (xhr.status === 200) {  
+          alert('图片上传成功！');  
+        } else {  
+          alert('图片上传失败。');  
+        }  
+      };  
+    });  
+  </script>  
+</body>  
+</html>
