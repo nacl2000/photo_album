@@ -24,7 +24,7 @@
             img.width = 1300;
             img.height = 1000;
             img.onclick = function() {
-              window.open(event.target.src.replace("/compress", ""), "_blank");
+              window.open(event.target.src.replace("is_compress=1", ""), "_blank");
             }
             imageContainer.append(img);
           }
