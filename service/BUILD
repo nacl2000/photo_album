@@ -14,9 +14,7 @@ go_library(
     visibility = ["//visibility:private"],
     deps = [
         "//pkg/path",
-        "//routers/homepage",
-        "//routers/login",
-        "//routers/photo",
+        "//routers",
         "@com_github_gin_gonic_contrib//sessions",
         "@com_github_gin_gonic_gin//:gin",
     ],

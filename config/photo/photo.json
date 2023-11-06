@@ -1,0 +1,5 @@
+{
+    "origin_photo_store_root": "/data/photo",
+    "compress_photo_store_root": "/data/compress_photo",
+    "compress_quality": 35
+}

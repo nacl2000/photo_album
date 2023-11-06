@@ -49,26 +49,34 @@
       background-color: #45a049;  
     }  
   </style>  
-</head>  
+</head>
 <body>  
   <h1>个人主页</h1>  
     
   <div id="upload-container">  
     <label for="image-file">上传图片:</label>  
     <input type="file" id="image-file" name="image-file" accept="image/*">  
-    <button id="upload-button">上传</button>  
+
+    <label for="location">输入地名:</label>  
+    <input type="text" id="location" name="location">  
+      
+    <button id="upload-button">上传</button> 
   </div>  
   
   <script>  
     document.getElementById('upload-button').addEventListener('click', function() {  
       var fileInput = document.getElementById('image-file');  
-      var file = fileInput.files[0];  
+      var file = fileInput.files[0];
+
+      var locationInput = document.getElementById('location');  
+      var location = locationInput.value;
         
       var formData = new FormData();  
       formData.append('image', file);  
+      formData.append('location', location);
   
       var xhr = new XMLHttpRequest();  
-      xhr.open('POST', '/upload', true); // 后端接收上传图片的API endpoint  
+      xhr.open('POST', '/upload/api', true);
       xhr.send(formData);  
   
       xhr.onload = function() {  
