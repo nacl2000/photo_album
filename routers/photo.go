@@ -1,40 +1,40 @@
-package photo
+package routers
 
 import (
 	"os"
 	"io"
 	"encoding/json" 
 	"fmt"
-	"log"
 	"net/http"
 	"path/filepath"
 	"github.com/gin-gonic/gin"
-	"github.com/nacl2000/photo_album/models/image_model"
 	"github.com/nacl2000/photo_album/pkg/network"
+	"github.com/nacl2000/photo_album/pkg/photo"
 )
 
-var originPhtotRootPath = filepath.Join("/home/nacl", "photo_data/")
-var compressPhtotRootPath = filepath.Join("/home/nacl", "compress_photo_data/")
+type Image struct {  
+	Url string `json:"url"`  
+}
 
 func displayPhotoHandler(c *gin.Context) {
-	log.SetOutput(os.Stdout)
-	phtotRootPath := originPhtotRootPath
+	is_compress := false
 	location := c.Query("location")
 	photoName := c.Query("photo_name")
 	if c.Query("is_compress") != "" {
-		phtotRootPath = compressPhtotRootPath
+		is_compress = true
 	}
-	log.Println("phtotRootPath:", phtotRootPath)
-	log.Println("location:", location)
-	log.Println("photoName:", photoName)
 	if photoName == "" {
 		c.HTML(http.StatusOK, "display_photo.html", gin.H{"location": location})
 		return
 	}
-	photoPath := filepath.Join(phtotRootPath, location, photoName)
+	photoPath, err:= photo.GetPhotoStorePath(location, photoName, is_compress)
+	if err != nil {  
+		c.String(http.StatusInternalServerError, "Could not get photo store path.")
+		return  
+	}
 	photo, err := os.Open(photoPath)
 	if err != nil {  
-		c.String(http.StatusInternalServerError, "Could not open photo file")
+		c.String(http.StatusInternalServerError, fmt.Sprintf("Could not open photo file %s", photoPath))
 		return  
 	}
 	defer photo.Close()  
@@ -48,15 +48,18 @@ func displayPhotoHandler(c *gin.Context) {
 }
 
 func getCompressPhotoUrlHandler(c *gin.Context) {
-	imageUrls := []image_model.Image{ }
+	imageUrls := []Image{ }
 	location := c.Query("location")
-	phtotRootPath := filepath.Join(compressPhtotRootPath, location)
-	err := filepath.Walk(phtotRootPath, func (path string, info os.FileInfo, err error) error {
+	phtotRootPath, err := photo.GetPhotoStoreRootPath(location, true)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+	err = filepath.Walk(phtotRootPath, func (path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 		if !info.IsDir() {
-			imageUrls = append(imageUrls, image_model.Image{Url: fmt.Sprintf("%s/photo/display?is_compress=1&photo_name=%s&location=%s", network.GetRequestDomain(c), filepath.Base(path), location)})
+			imageUrls = append(imageUrls, Image{Url: fmt.Sprintf("%s/photo/display?is_compress=1&photo_name=%s&location=%s", network.GetRequestDomain(c), filepath.Base(path), location)})
 			return nil
 		}
 		return nil

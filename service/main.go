@@ -5,9 +5,7 @@ import (
 	"path/filepath"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/sessions"
-	"github.com/nacl2000/photo_album/routers/photo"
-	"github.com/nacl2000/photo_album/routers/login"
-	"github.com/nacl2000/photo_album/routers/homepage"
+	"github.com/nacl2000/photo_album/routers"
 	"github.com/nacl2000/photo_album/pkg/path"
 )
 
@@ -34,7 +32,8 @@ func getRoutes() {
 
 	v1 := router.Group("/")
 	v1.GET("/", rootHandler)
-	photo.AddRoutes(v1)
-	login.AddLoginRoutes(v1)
-	homepage.AddHomepageRoutes(v1)
+	routers.AddRoutes(v1)
+	routers.AddLoginRoutes(v1)
+	routers.AddHomepageRoutes(v1)
+	routers.AddUploadRoutes(v1)
 }
