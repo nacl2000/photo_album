@@ -13,7 +13,7 @@ var router = gin.Default()
 
 func main() {
 	getRoutes()
-	router.Run(":8080")
+	router.Run(":8081")
 }
 
 func rootHandler(c *gin.Context) {
