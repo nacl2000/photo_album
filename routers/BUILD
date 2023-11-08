@@ -11,7 +11,6 @@ go_library(
     importpath = "github.com/nacl2000/photo_album/routers",
     visibility = ["//visibility:public"],
     deps = [
-        "//models/user_model",
         "//pkg/auth",
         "//pkg/network",
         "//pkg/photo",
